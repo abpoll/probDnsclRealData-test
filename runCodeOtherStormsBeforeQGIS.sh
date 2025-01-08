@@ -1,23 +1,23 @@
 #!/bin/bash
 
-cd /storage/work/svr5482/probDnsclRealData/code/compareStorms/dataProcessing
-Rscript getWetIndsAroundHWMs.R "/storage/work/svr5482/probDnsclRealData"
+DATA_PATH=$(pwd)
 
-cd /storage/work/svr5482/probDnsclRealData/code/compareStorms/evaluation
-Rscript dnsclAroundHWMs.R "/storage/work/svr5482/probDnsclRealData"
+# Array of R scripts to run
+scripts=("getWetIndsAroundHWMs.R" "dnsclAroundHWMs.R" "compareBds.R" "floodByElev.R" "modelProbFloodbyElev.R" "getProbFloodAtDestLocs.R" "costDistPrep_FloodArea.R")
 
-cd /storage/work/svr5482/probDnsclRealData/code/compareStorms/evaluation
-Rscript compareBds.R "/storage/work/svr5482/probDnsclRealData"
+# Array of corresponding directories for the scripts
+directories=(
+    "code/compareStorms/dataProcessing"
+    "code/compareStorms/evaluation"
+    "code/compareStorms/evaluation"
+    "code/compareStorms/evaluation"
+    "code/compareStorms/models"
+    "code/compareStorms/dataProcessing"
+    "code/compareStorms/dataProcessing"
+)
 
-cd /storage/work/svr5482/probDnsclRealData/code/compareStorms/evaluation
-Rscript floodByElev.R "/storage/work/svr5482/probDnsclRealData"
-
-cd /storage/work/svr5482/probDnsclRealData/code/compareStorms/models
-Rscript modelProbFloodbyElev.R "/storage/work/svr5482/probDnsclRealData"
-
-cd /storage/work/svr5482/probDnsclRealData/code/compareStorms/dataProcessing
-Rscript getProbFloodAtDestLocs.R "/storage/work/svr5482/probDnsclRealData"
-
-cd /storage/work/svr5482/probDnsclRealData/code/compareStorms/dataProcessing
-Rscript costDistPrep_FloodArea.R "/storage/work/svr5482/probDnsclRealData"
-
+# Loop through scripts and execute them
+for i in "${!scripts[@]}"; do
+    cd "${directories[$i]}" || { echo "Failed to change directory to ${directories[$i]}"; exit 1; }
+    Rscript "${scripts[$i]}" "$DATA_PATH"
+done

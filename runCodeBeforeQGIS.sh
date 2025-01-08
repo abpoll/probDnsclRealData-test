@@ -1,46 +1,40 @@
 #!/bin/bash
 
-cd /storage/work/svr5482/probDnsclRealData/code/dataProcessing
+# Set the data path to the absolute path of the current directory
+DATA_PATH=$(pwd)
 
-Rscript getCoordsFromRuns.R "/storage/work/svr5482/probDnsclRealData"
+# Array of R scripts to run
+scripts=(
+    "getCoordsFromRuns.R"
+    "get5mCoordsAroundHWMs.R"
+    "getWetIndsAroundHWMs.R"
+    "getAdjPredsAtAndAroundHWMs.R"
+    "dnsclAroundHWMs.R"
+    "dnsclAtHWMs.R"
+    "compareBds.R"
+    "floodByElev.R"
+    "modelProbFloodbyElev.R"
+    "getProbFloodatDestLocs.R"
+    "costDistPrep_FloodArea.R"
+)
 
-cd /storage/work/svr5482/probDnsclRealData/code/dataProcessing
+# Array of corresponding directories for the scripts
+directories=(
+    "code/dataProcessing"
+    "code/dataProcessing"
+    "code/dataProcessing"
+    "code/dataProcessing"
+    "code/evaluation"
+    "code/evaluation"
+    "code/evaluation"
+    "code/evaluation"
+    "code/models"
+    "code/dataProcessing"
+    "code/dataProcessing"
+)
 
-Rscript get5mCoordsAroundHWMs.R "/storage/work/svr5482/probDnsclRealData"
-
-cd /storage/work/svr5482/probDnsclRealData/code/dataProcessing
-
-Rscript getWetIndsAroundHWMs.R "/storage/work/svr5482/probDnsclRealData"
-
-cd /storage/work/svr5482/probDnsclRealData/code/dataProcessing
-
-Rscript getAdjPredsAtAndAroundHWMs.R "/storage/work/svr5482/probDnsclRealData"
-
-cd /storage/work/svr5482/probDnsclRealData/code/evaluation
-
-Rscript dnsclAroundHWMs.R "/storage/work/svr5482/probDnsclRealData"
-
-cd /storage/work/svr5482/probDnsclRealData/code/evaluation
-
-Rscript dnsclAtHWMs.R "/storage/work/svr5482/probDnsclRealData"
-
-cd /storage/work/svr5482/probDnsclRealData/code/evaluation
-
-Rscript compareBds.R "/storage/work/svr5482/probDnsclRealData"
-
-cd /storage/work/svr5482/probDnsclRealData/code/evaluation
-
-Rscript floodByElev.R "/storage/work/svr5482/probDnsclRealData"
-
-cd /storage/work/svr5482/probDnsclRealData/code/models
-
-Rscript modelProbFloodbyElev.R "/storage/work/svr5482/probDnsclRealData"
-
-cd /storage/work/svr5482/probDnsclRealData/code/dataProcessing
-
-Rscript getProbFloodatDestLocs.R "/storage/work/svr5482/probDnsclRealData"
-
-cd /storage/work/svr5482/probDnsclRealData/code/dataProcessing
-
-Rscript costDistPrep_FloodArea.R "/storage/work/svr5482/probDnsclRealData"
-
+# Loop through scripts and execute them
+for i in "${!scripts[@]}"; do
+    cd "${directories[$i]}" || { echo "Failed to change directory to ${directories[$i]}"; exit 1; }
+    Rscript "${scripts[$i]}" "$DATA_PATH"
+done

@@ -1,22 +1,10 @@
 #!/bin/bash
+DATA_PATH=$(pwd)
 
-cd /storage/work/svr5482/probDnsclRealData/code/plots
-Rscript plotAccuracyWholeRegion.R "/storage/work/svr5482/probDnsclRealData"
+# Array of R scripts to run
+scripts=("plotAccuracyWholeRegion.R" "plotP.3mFlood_Dnscl.R" "plot.3mFlood_Dnscl.R" "plotCostGrow.3mFlood.R" "plotHR.3mFlood.R" "plotDistatHWMs_Dnscl.R")
 
-cd /storage/work/svr5482/probDnsclRealData/code/plots
-Rscript plotP.3mFlood_Dnscl.R "/storage/work/svr5482/probDnsclRealData"
-
-cd /storage/work/svr5482/probDnsclRealData/code/plots
-Rscript plot.3mFlood_Dnscl.R "/storage/work/svr5482/probDnsclRealData"
-
-cd /storage/work/svr5482/probDnsclRealData/code/plots
-Rscript plotP.3mFlood_Dnscl.R "/storage/work/svr5482/probDnsclRealData"
-
-cd /storage/work/svr5482/probDnsclRealData/code/plots
-Rscript plotCostGrow.3mFlood.R "/storage/work/svr5482/probDnsclRealData"
-
-cd /storage/work/svr5482/probDnsclRealData/code/plots
-Rscript plotHR.3mFlood.R "/storage/work/svr5482/probDnsclRealData"
-
-cd /storage/work/svr5482/probDnsclRealData/code/plots
-Rscript plotDistatHWMs_Dnscl.R "/storage/work/svr5482/probDnsclRealData"
+for script in "${scripts[@]}"; do
+   # Rscript "$script" "$DATA_PATH"
+    echo "Running: Rscript \"$script\" \"$DATA_PATH\""
+done

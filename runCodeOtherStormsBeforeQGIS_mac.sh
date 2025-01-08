@@ -1,23 +1,23 @@
 #!/bin/bash
 
-cd /Users/f007f8t/Documents/probDnsclRealData/code/compareStorms/dataProcessing
-Rscript getWetIndsAroundHWMs.R "/Users/f007f8t/Documents/probDnsclRealData"
+DATA_PATH=$(pwd)
 
-cd /Users/f007f8t/Documents/probDnsclRealData/code/compareStorms/evaluation
-Rscript dnsclAroundHWMs.R "/Users/f007f8t/Documents/probDnsclRealData"
+# Array of R scripts to run
+scripts=("getWetIndsAroundHWMs.R" "dnsclAroundHWMs.R" "compareBds.R" "floodByElev.R" "modelProbFloodbyElev.R" "getProbFloodAtDestLocs.R" "costDistPrep_FloodArea.R")
 
-cd /Users/f007f8t/Documents/probDnsclRealData/code/compareStorms/evaluation
-Rscript compareBds.R "/Users/f007f8t/Documents/probDnsclRealData"
+# Array of corresponding directories for the scripts
+directories=(
+    "code/compareStorms/dataProcessing"
+    "code/compareStorms/evaluation"
+    "code/compareStorms/evaluation"
+    "code/compareStorms/evaluation"
+    "code/compareStorms/models"
+    "code/compareStorms/dataProcessing"
+    "code/compareStorms/dataProcessing"
+)
 
-cd /Users/f007f8t/Documents/probDnsclRealData/code/compareStorms/evaluation
-Rscript floodByElev.R "/Users/f007f8t/Documents/probDnsclRealData"
-
-cd /Users/f007f8t/Documents/probDnsclRealData/code/compareStorms/models
-Rscript modelProbFloodbyElev.R "/Users/f007f8t/Documents/probDnsclRealData"
-
-cd /Users/f007f8t/Documents/probDnsclRealData/code/compareStorms/dataProcessing
-Rscript getProbFloodAtDestLocs.R "/Users/f007f8t/Documents/probDnsclRealData"
-
-cd /Users/f007f8t/Documents/probDnsclRealData/code/compareStorms/dataProcessing
-Rscript costDistPrep_FloodArea.R "/Users/f007f8t/Documents/probDnsclRealData"
-
+# Loop through scripts and execute them
+for i in "${!scripts[@]}"; do
+    cd "${directories[$i]}" || { echo "Failed to change directory to ${directories[$i]}"; exit 1; }
+    Rscript "${scripts[$i]}" "$DATA_PATH"
+done

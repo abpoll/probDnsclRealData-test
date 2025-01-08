@@ -1,44 +1,46 @@
 #!/bin/bash
 
-cd /Users/f007f8t/Documents/probDnsclRealData/code/dataProcessing
-Rscript getFloodedCellFromBackLink.R "/Users/f007f8t/Documents/probDnsclRealData"
+# Set the data path to the absolute path of the current directory
+DATA_PATH=$(pwd)
 
-cd /Users/f007f8t/Documents/probDnsclRealData/code/dataProcessing
-Rscript getSourcesForDests.R "/Users/f007f8t/Documents/probDnsclRealData"
+# Array of R scripts to run
+scripts=(
+    "getFloodedCellFromBackLink.R"
+    "getSourcesForDests.R"
+    "dnsclSource.R"
+    "getMeanIfNot0ForDestCells.R"
+    "probDestCellsWetVSDry.R"
+    "probDestCellsFlood.3m.R"
+    "getCDFandPDFatDests.R"
+    "sensitivityAndSpecificityWetCells.R"
+    "sensitivityAndSpecificity.3mWetCells.R"
+    "comparePredMeanToTruthDest.R"
+    "getTotalMAE95PIAccuracy.R"
+    "getTotalSensitivitySpecificity.R"
+    "getTotalSensitivitySpecificity.3mFlood.R"
+    "costgrow10mto5m_MethodArea1.R"
+)
 
-cd /Users/f007f8t/Documents/probDnsclRealData/code/evaluation
-Rscript dnsclSource.R "/Users/f007f8t/Documents/probDnsclRealData"
+# Array of corresponding directories for the scripts
+directories=(
+    "code/dataProcessing"
+    "code/dataProcessing"
+    "code/evaluation"
+    "code/models"
+    "code/models"
+    "code/models"
+    "code/models"
+    "code/evaluation"
+    "code/evaluation"
+    "code/evaluation"
+    "code/evaluation"
+    "code/evaluation"
+    "code/evaluation"
+    "code/comparison/costgrow"
+)
 
-cd /Users/f007f8t/Documents/probDnsclRealData/code/models
-Rscript getMeanIfNot0ForDestCells.R "/Users/f007f8t/Documents/probDnsclRealData"
-
-cd /Users/f007f8t/Documents/probDnsclRealData/code/models
-Rscript probDestCellsWetVSDry.R "/Users/f007f8t/Documents/probDnsclRealData"
-
-cd /Users/f007f8t/Documents/probDnsclRealData/code/models
-Rscript probDestCellsFlood.3m.R "/Users/f007f8t/Documents/probDnsclRealData"
-
-cd /Users/f007f8t/Documents/probDnsclRealData/code/models
-Rscript getCDFandPDFatDests.R "/Users/f007f8t/Documents/probDnsclRealData"
-
-cd /Users/f007f8t/Documents/probDnsclRealData/code/evaluation
-Rscript sensitivityAndSpecificityWetCells.R "/Users/f007f8t/Documents/probDnsclRealData"
-
-cd /Users/f007f8t/Documents/probDnsclRealData/code/evaluation
-Rscript sensitivityAndSpecificity.3mWetCells.R "/Users/f007f8t/Documents/probDnsclRealData"
-
-cd /Users/f007f8t/Documents/probDnsclRealData/code/evaluation
-Rscript comparePredMeanToTruthDest.R "/Users/f007f8t/Documents/probDnsclRealData"
-
-cd /Users/f007f8t/Documents/probDnsclRealData/code/evaluation
-
-Rscript getTotalMAE95PIAccuracy.R "/Users/f007f8t/Documents/probDnsclRealData"
-
-cd /Users/f007f8t/Documents/probDnsclRealData/code/evaluation
-Rscript getTotalSensitivitySpecificity.R "/Users/f007f8t/Documents/probDnsclRealData"
-
-cd /Users/f007f8t/Documents/probDnsclRealData/code/evaluation
-Rscript getTotalSensitivitySpecificity.3mFlood.R "/Users/f007f8t/Documents/probDnsclRealData"
-
-cd /Users/f007f8t/Documents/probDnsclRealData/code/comparison/costgrow
-Rscript costgrow10mto5m_MethodArea1.R "/Users/f007f8t/Documents/probDnsclRealData"
+# Loop through scripts and execute them
+for i in "${!scripts[@]}"; do
+    cd "${directories[$i]}" || { echo "Failed to change directory to ${directories[$i]}"; exit 1; }
+    Rscript "${scripts[$i]}" "$DATA_PATH"
+done
