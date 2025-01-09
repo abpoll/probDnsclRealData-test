@@ -41,6 +41,6 @@ directories=(
 
 # Loop through scripts and execute them
 for i in "${!scripts[@]}"; do
-    cd "${directories[$i]}" || { echo "Failed to change directory to ${directories[$i]}"; exit 1; }
+    cd "$DATA_PATH/${directories[$i]}" || { echo "Failed to change directory to ${directories[$i]}"; exit 1; }
     Rscript "${scripts[$i]}" "$DATA_PATH"
 done

@@ -7,9 +7,10 @@
 
 module load anaconda3/2021.05
 
-cd /storage/work/svr5482/probDnsclRealData/plots
+DATA_PATH=$(pwd)
+cd $DATA_PATH/plots
 
-conda env create --file probDnscl_env.yml --prefix /storage/work/svr5482/probDnsclRealData
-ln -s /storage/work/svr5482/probDnsclRealData/probDnscl_env ~/.conda/envs/probDnscl_env
+conda env create --file probDnscl_env.yml --prefix $DATA_PATH
+ln -s $DATA_PATH/probDnscl_env ~/.conda/envs/probDnscl_env
 
 conda deactivate

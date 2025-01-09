@@ -2,7 +2,7 @@
 
 rm(list=ls())
 
-install.packages("terra", type = "source")
+install.packages("terra")
 install.packages("akima")
 install.packages("DescTools")
 install.packages("MASS")
